@@ -61,4 +61,4 @@ else:
     if "play" in mode:
         waitEmbyLoaded()
         # plugin.video.emby entrypoint
-        entrypoint.doPlayback(itemid, dbid)
+        entrypoint.doPlayback(itemid, dbid, playOnStart = True)
