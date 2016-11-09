@@ -28,6 +28,7 @@ import loghandler
 import utils
 import time
 def waitEmbyLoaded():
+    isOnStart = False
     userId = utils.window('emby_currUser')
     server = utils.window('emby_server%s' % userId)
     token = utils.window('emby_accessToken%s' % userId)
@@ -36,7 +37,11 @@ def waitEmbyLoaded():
         userId = utils.window('emby_currUser')
         server = utils.window('emby_server%s' % userId)
         token = utils.window('emby_accessToken%s' % userId)
+        isOnStart = True
         xbmc.log("Emby plugin.video.emby : Wait for emby loaded %s, %s, %s"%(userId, server, token))
+
+
+    return isOnStart
 
 loghandler.config()
 log = logging.getLogger("EMBY.default_movies")
@@ -59,6 +64,6 @@ except (KeyError, IndexError):
 
 else:
     if "play" in mode:
-        waitEmbyLoaded()
+        isOnStart = waitEmbyLoaded()
         # plugin.video.emby entrypoint
-        entrypoint.doPlayback(itemid, dbid, playOnStart = True)
+        entrypoint.doPlayback(itemid, dbid, playOnStart = isOnStart)
